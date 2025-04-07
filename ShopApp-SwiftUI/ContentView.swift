@@ -9,7 +9,27 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HomeView()
+        TabView {
+
+            HomeView().tabItem {
+                VStack {
+                    Image(systemName: "house")
+
+                    Text("Home")
+                }
+            }
+
+            BasketView().tabItem {
+                VStack {
+                    Image(systemName: "basket")
+
+                    Text("Basket")
+                }
+            }
+
+
+        }
+
     }
 }
 

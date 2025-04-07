@@ -6,10 +6,21 @@
 //
 
 import SwiftUI
-
+import SwiftData
 struct BasketView: View {
+    
+    @Query var products: [ProductData]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                ForEach(products) { product in
+                    Text("\(product.id)")
+                }
+            }
+            .navigationTitle("FaceFacts")
+            
+        }
     }
 }
 

@@ -1,42 +1,49 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var viewModel = HomeViewModel()
     
-    let viewModel : HomeViewModel = HomeViewModel()
-    @State private var list: [Product] = []
-
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: viewModel.columns, spacing: 30) {
-                    ForEach(list) { product in
-                        NavigationLink(destination: ProductDetailView(product: product)) {
-                            ProductCard(product: product)
-                                .frame(height: 250) // Kart yüksekliği
-                            .background(Color.black.opacity(0.2))
-                                .cornerRadius(10)                        }
+            Group {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = viewModel.errorMessage {
+                    VStack {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                            .padding()
                         
-                        
+                        Button("Tekrar Dene") {
+                            viewModel.fetchProducts()
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: viewModel.columns, spacing: 30) {
+                            ForEach(viewModel.products) { product in
+                                NavigationLink(destination: ProductDetailView(product: product)) {
+                                    ProductCard(product: product)
+                                        .frame(height: 250)
+                                        .background(Color.black.opacity(0.2))
+                                        .cornerRadius(10)
+                                }
+                            }
+                        }
+                        .padding()
                     }
                 }
-                    .padding()
-            }.navigationTitle("Products").onAppear(perform: {
-                
-                    viewModel.fetchProducts { response in
-                        list = response.products
-                    } onFailed: { error in
-                        print(error)
-                    }
-                
-               
-
-        })
+            }
+            .navigationTitle("Products")
+        }
+        .onAppear {
+            viewModel.fetchProducts()
         }
     }
 }
-
-
-
 
 // Preview
 #Preview {

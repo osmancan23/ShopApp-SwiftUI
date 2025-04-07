@@ -8,22 +8,21 @@
 import Foundation
 
 protocol ProductServiceProtocol {
+    var networkManager: NetworkManager { get }
     
-    var networkManager : NetworkManager { get }
-    
-    
-    func fetchProducts(onSuccess: @escaping (ResponseModel) -> Void , onFailed: @escaping (String) -> Void)
-
+    func fetchProducts() async throws -> ResponseModel
+    func fetchProductWithId(_ id: Int) async throws -> Product
 }
 
-
-struct ProductService : ProductServiceProtocol {
+struct ProductService: ProductServiceProtocol {
     var networkManager: NetworkManager
     
-    func fetchProducts(onSuccess: @escaping (ResponseModel) -> Void, onFailed: @escaping (String) -> Void) {
-        networkManager.request(onSuccess: onSuccess, onFailed: onFailed, route: .products, method: .get)
+    func fetchProducts() async throws -> ResponseModel {
+        return try await networkManager.request(route: .products, method: .get)
     }
     
-    
+    func fetchProductWithId(_ id: Int) async throws -> Product {
+        return try await networkManager.request(route: .product(id: id), method: .get)
+    }
 }
 

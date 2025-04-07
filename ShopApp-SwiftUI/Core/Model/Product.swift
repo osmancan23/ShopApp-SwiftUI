@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftData
 
 // MARK: - Product
 struct Product: Codable , Identifiable{
@@ -15,7 +15,17 @@ struct Product: Codable , Identifiable{
     let price: Double
     let discountPercentage, rating: Double
     let stock: Int
-    let brand, category: String
+    let brand, category: String?
     let thumbnail: String
     let images: [String]
+}
+
+
+@Model
+final class ProductData {
+    var id: Int
+    
+    init(id: Int) {
+        self.id = id
+    }
 }

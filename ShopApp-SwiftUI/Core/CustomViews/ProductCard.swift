@@ -14,7 +14,7 @@ struct ProductCard: View {
     var body: some View {
         VStack {
 
-            KFImage(URL(string: product.images.first!)!).resizable().aspectRatio(contentMode: .fit)
+            KFImage(URL(string: product.thumbnail)!).resizable().aspectRatio(contentMode: .fit)
             Spacer()
 
             Text(product.title)
@@ -23,9 +23,10 @@ struct ProductCard: View {
 
             Spacer()
 
-            Text("$\(product.price)") // Burada fiyat yerine id kullandım, gerçek projede fiyat ekleyebilirsiniz.
-            .font(.subheadline)
+            Text(String(format: "$%.2f", product.price))
+                .font(.subheadline)
                 .foregroundColor(.gray)
+            
         }
             .padding()
             .frame(maxWidth: .infinity,maxHeight: .infinity)

@@ -9,24 +9,68 @@ import Foundation
 import Alamofire
 
 struct NetworkManager {
-
-     func request <T:Codable>(onSuccess: @escaping (T) -> Void, onFailed: @escaping (String) -> Void, route: Route, method: HTTPMethod, parameters: Parameters? = nil, headers: HTTPHeaders? = nil) {
+    
+    func request<T: Codable>(route: Route, method: HTTPMethod, parameters: Parameters? = nil, headers: HTTPHeaders? = nil) async throws -> T {
         let urlString = Route.baseUrl + route.value
-
-        guard let url = urlString.asUrl else { return }
-
-
-        AF.request(url, method: method, parameters: parameters, headers: headers).responseDecodable(of: T.self) { result in
-
-            guard let value = result.value else {
-                print(result.response)
-                print(result.request)
-                onFailed(result.error!.localizedDescription)
-                return
-            }
-
-            onSuccess(value)
-
+        
+        guard let url = urlString.asUrl else {
+            throw NetworkError.invalidURL
+        }
+        
+        print("🌐 Request URL: \(url.absoluteString)")
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            AF.request(url, method: method, parameters: parameters, headers: headers)
+                .validate()
+                .responseData { response in
+                    print("📡 Response Status Code: \(String(describing: response.response?.statusCode))")
+                    
+                    if let data = response.data {
+                        print("📦 Raw Response: \(String(data: data, encoding: .utf8) ?? "")")
+                        
+                        do {
+                            let decoder = JSONDecoder()
+                            decoder.keyDecodingStrategy = .convertFromSnakeCase
+                            let decodedResponse = try decoder.decode(T.self, from: data)
+                            continuation.resume(returning: decodedResponse)
+                        } catch {
+                            print("🔍 Decoding Error: \(error)")
+                            continuation.resume(throwing: NetworkError.decodingError(error.localizedDescription))
+                        }
+                    } else if let error = response.error {
+                        print("❌ Network Error: \(error.localizedDescription)")
+                        continuation.resume(throwing: NetworkError.networkError(error.localizedDescription))
+                    } else {
+                        continuation.resume(throwing: NetworkError.unknownError)
+                    }
+                }
         }
     }
+}
+
+enum NetworkError: LocalizedError {
+    case invalidURL
+    case decodingError(String)
+    case networkError(String)
+    case apiError(message: String)
+    case unknownError
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL:
+            return "Geçersiz URL"
+        case .decodingError(let message):
+            return "Veri çözümleme hatası: \(message)"
+        case .networkError(let message):
+            return "Ağ hatası: \(message)"
+        case .apiError(let message):
+            return "API hatası: \(message)"
+        case .unknownError:
+            return "Bilinmeyen bir hata oluştu"
+        }
+    }
+}
+
+struct ErrorResponse: Codable {
+    let message: String
 }

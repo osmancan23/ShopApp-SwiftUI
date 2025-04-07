@@ -26,6 +26,7 @@
 		CDC1A31F2C8B45CD00169A99 /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC1A31E2C8B45CD00169A99 /* ProductCard.swift */; };
 		CDC1A3232C8B480200169A99 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CDC1A3222C8B480200169A99 /* Kingfisher */; };
 		CDC1A3262C8B4A5E00169A99 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC1A3252C8B4A5E00169A99 /* HomeViewModel.swift */; };
+		CDC326612DA45E6D00002503 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC326602DA45E6D00002503 /* BasketView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		CDC1A31A2C8B3C8200169A99 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		CDC1A31E2C8B45CD00169A99 /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
 		CDC1A3252C8B4A5E00169A99 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		CDC326602DA45E6D00002503 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 		CDC1A3112C8B3A9A00169A99 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				CDC3265F2DA45E5F00002503 /* Basket */,
 				CDC1A31C2C8B452900169A99 /* ProductDetail */,
 				CDC1A3132C8B3AB700169A99 /* Home */,
 			);
@@ -255,6 +258,14 @@
 				CDC1A3252C8B4A5E00169A99 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		CDC3265F2DA45E5F00002503 /* Basket */ = {
+			isa = PBXGroup;
+			children = (
+				CDC326602DA45E6D00002503 /* BasketView.swift */,
+			);
+			path = Basket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -397,6 +408,7 @@
 			files = (
 				CD71B46C2C8B7546003BE854 /* Route.swift in Sources */,
 				CDC1A3172C8B3B1F00169A99 /* HomeView.swift in Sources */,
+				CDC326612DA45E6D00002503 /* BasketView.swift in Sources */,
 				CD71B4632C8B6A4B003BE854 /* ProductDetailView.swift in Sources */,
 				CDC1A3262C8B4A5E00169A99 /* HomeViewModel.swift in Sources */,
 				CD9632DF2C8B75E4002E1773 /* String-Extensions.swift in Sources */,

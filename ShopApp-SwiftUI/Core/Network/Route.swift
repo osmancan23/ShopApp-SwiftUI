@@ -12,13 +12,14 @@ enum Route {
     static let baseUrl  = "https://dummyjson.com/"
     
     case products
-    
+    case product(id : Int)
     
     var value : String {
         
         switch self {
-            case .products : return "products?limit=10"
+            case .products : return "products?limit=30"
             
+            case .product( let id) : return "products/\(id)"
             
         }
     }
