@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 // MARK: - Product
-struct Product: Codable , Identifiable{
+struct Product: Codable , Identifiable {
     let id: Int
     let title, description: String
     let price: Double
@@ -20,12 +20,21 @@ struct Product: Codable , Identifiable{
     let images: [String]
 }
 
-
 @Model
-final class ProductData {
-    var id: Int
+final class ProductData: Identifiable {
+    @Attribute(.unique) var id: Int
+    var title: String
+    var productDescription: String
+    var price: Double
+    var thumbnail: String
+    var imagesList: [String]
     
-    init(id: Int) {
+    init(id: Int, title: String, description: String, price: Double, thumbnail: String, images: [String]) {
         self.id = id
+        self.title = title
+        self.productDescription = description
+        self.price = price
+        self.thumbnail = thumbnail
+        self.imagesList = images
     }
 }

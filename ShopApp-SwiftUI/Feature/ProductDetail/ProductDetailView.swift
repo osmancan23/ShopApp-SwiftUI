@@ -35,7 +35,17 @@ struct ProductDetailView: View {
                             // Spacer()
                             Spacer()
                             Button("Add To Basket") {
-                                modelContext.insert(ProductData(id: product.id))
+                                let productData = ProductData(
+                                    id: product.id,
+                                    title: product.title,
+                                    description: product.description,
+                                    price: product.price,
+                                    thumbnail: product.thumbnail,
+                                    images: product.images
+                                )
+                                modelContext.insert(productData)
+                                try? modelContext.save()
+                                print("Ürün sepete eklendi: \(product.title)")
                                 hasAddedToCart = true
                             }
                                 .buttonStyle(.bordered)

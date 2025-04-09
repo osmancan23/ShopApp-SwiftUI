@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
-
+import SwiftData
 struct ContentView: View {
+    @Query(sort: \ProductData.id) private var products: [ProductData]
+
     var body: some View {
         TabView {
 
@@ -26,6 +28,7 @@ struct ContentView: View {
                     Text("Basket")
                 }
             }
+                .badge(products.count)
 
 
         }

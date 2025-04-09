@@ -17,16 +17,13 @@ struct NetworkManager {
             throw NetworkError.invalidURL
         }
         
-        print("🌐 Request URL: \(url.absoluteString)")
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(url, method: method, parameters: parameters, headers: headers)
                 .validate()
                 .responseData { response in
-                    print("📡 Response Status Code: \(String(describing: response.response?.statusCode))")
                     
                     if let data = response.data {
-                        print("📦 Raw Response: \(String(data: data, encoding: .utf8) ?? "")")
                         
                         do {
                             let decoder = JSONDecoder()
@@ -34,11 +31,9 @@ struct NetworkManager {
                             let decodedResponse = try decoder.decode(T.self, from: data)
                             continuation.resume(returning: decodedResponse)
                         } catch {
-                            print("🔍 Decoding Error: \(error)")
                             continuation.resume(throwing: NetworkError.decodingError(error.localizedDescription))
                         }
                     } else if let error = response.error {
-                        print("❌ Network Error: \(error.localizedDescription)")
                         continuation.resume(throwing: NetworkError.networkError(error.localizedDescription))
                     } else {
                         continuation.resume(throwing: NetworkError.unknownError)

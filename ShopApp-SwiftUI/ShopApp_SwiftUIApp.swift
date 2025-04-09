@@ -8,13 +8,25 @@
 import SwiftUI
 import SwiftData
 
-
 @main
 struct ShopApp_SwiftUIApp: App {
+    
+    let container: ModelContainer
+    
+    init() {
+        do {
+          
+            container = try ModelContainer(for: ProductData.self)
+            print("SwiftData container başarıyla oluşturuldu")
+        } catch {
+            fatalError("SwiftData container oluşturulamadı: \(error)")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: ProductData.self)
+        .modelContainer(container)
     }
 }
