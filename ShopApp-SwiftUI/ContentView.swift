@@ -7,12 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import Firebase
 struct ContentView: View {
     @Query(sort: \ProductData.id) private var products: [ProductData]
-
+    
     var body: some View {
         TabView {
-
+            
             HomeView().tabItem {
                 VStack {
                     Image(systemName: "house")
@@ -30,7 +31,14 @@ struct ContentView: View {
             }
                 .badge(products.count)
 
+            
+            ProfileView().tabItem {
+                VStack {
+                    Image(systemName: "person.crop.circle")
 
+                    Text("Profile")
+                }
+            }
         }
 
     }

@@ -6,10 +6,29 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
+import GoogleSignIn
 struct ProfileView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Profile View")
+            
+            Button {
+                Task{
+                    do{
+                        GIDSignIn.sharedInstance.signOut()
+
+                        try Auth.auth().signOut()
+                    }catch {
+                        print("error")
+                    }
+                }
+            } label: {
+                Text("Sign Out")
+            }
+            .buttonStyle(.bordered)
+
+        }
     }
 }
 

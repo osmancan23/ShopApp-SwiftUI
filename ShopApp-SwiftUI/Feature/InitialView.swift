@@ -6,13 +6,32 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct InitialView: View {
+    @State private var userLoggedIn = (Auth.auth().currentUser != nil)
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+
+            if userLoggedIn {
+                ContentView()
+            } else {
+                AuthView()
+            }
+            
+        } //: VStack
+        .onAppear{
+            Auth.auth().addStateDidChangeListener { auth, user in
+                if (user != nil){
+                    userLoggedIn = true
+                }
+                else{
+                    userLoggedIn = false
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    InitialView()
-}
+
